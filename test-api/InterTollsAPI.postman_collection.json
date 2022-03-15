@@ -1,0 +1,3146 @@
+{
+	"info": {
+		"_postman_id": "8cc50674-abcd-4c55-925e-af4e161251ec",
+		"name": "InterTolls API",
+		"description": "RESTful Application Programming Interface (REST API) για την αποθήκευση και ανάκτηση των δεδομένων που αποθηκεύονται στη Βάση",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "admin",
+			"item": [
+				{
+					"name": "healthcheck",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Connected\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"});",
+									"pm.test(\"DB Connection\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.dbconnnection.host).to.eql(\"db\");",
+									"    pm.expect(jsonData.dbconnnection.user).to.eql(\"root\");",
+									"    pm.expect(jsonData.dbconnnection.password).to.eql(\"password\");",
+									"    pm.expect(jsonData.dbconnnection.database).to.eql(\"InterTolls\");",
+									"}); "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/admin/healthcheck",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"healthcheck"
+							]
+						},
+						"description": "Υποστηρίζει τη μέθοδο GET και επιβεβαιώνει τη συνδεσιμότητα (end-to-end connectivity) μεταξύ του χρήστη και της βάσης δεδομένων. Το back-end, δηλαδή, ελέγχει τη συνδεσιμότητα με τη ΒΔ για να απαντήσει στο αίτημα.\n\nΣε περίπτωση επιτυχούς σύνδεσης επιστρέφεται το json object: {\"status\":\"OK\", \"dbconnection\":\\[connection string\\]}, διαφορετικά επιστρέφεται {\"status\":\"failed\", \"dbconnection\":\\[connection string\\]}. Στο connection string περιέχεται ό,τι απαιτείται για τη ΒΔ."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:9103/interoperability/api/admin/healthcheck",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"healthcheck"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\",\n    \"dbconnnection\": \"{\\\"host\\\":\\\"localhost\\\",\\\"user\\\":\\\"root\\\",\\\"password\\\":\\\"password\\\",\\\"database\\\":\\\"InterTolls\\\",\\\"socketPath\\\":\\\"/tmp/mysql.sock\\\"}\"\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/healthcheck",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"healthcheck"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "169"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a9-PAR9s3OPqugOMt9+o4lGU6Nyy1k\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:25:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"dbconnnection\": \"{\\\"host\\\":\\\"localhost\\\",\\\"user\\\":\\\"root\\\",\\\"password\\\":\\\"password\\\",\\\"database\\\":\\\"InterTolls\\\",\\\"socketPath\\\":\\\"/tmp/mysql.sock\\\"}\"\n}"
+						}
+					]
+				},
+				{
+					"name": "resetpasses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/admin/resetpasses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetpasses"
+							]
+						},
+						"description": "Υποστηρίζει τη μέθοδο POST και προβαίνει σε αρχικοποίηση του πίνακα γεγονότων διέλευσης (διαγράφοντας όλα τα γεγονότα).\n\nΣε περίπτωση επιτυχίας, επιστρέφεται το json object: {\"status\":\"OK\"}, διαφορετικά επιστρέφεται {\"status\":\"failed\"} με πληροφορία σχετικά με την αποτυχία"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetpasses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetpasses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "15"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f-v/Y1JusChTxrQUzPtNAKycooOTA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 13:07:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetpasses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetpasses"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "117"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"75-X/leZRc8qVZ7Nr99wSR9SWtvVCI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:32:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"error\": {\n        \"errno\": -2,\n        \"code\": \"ENOENT\",\n        \"syscall\": \"connect\",\n        \"address\": \"/tmp/mysql.sock\",\n        \"fatal\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "resetoperators",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/admin/resetoperators",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetoperators"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetoperators",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetoperators"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						},
+						{
+							"name": "Failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetoperators",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetoperators"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"error\": {\n        \"errno\": -2,\n        \"code\": \"ENOENT\",\n        \"syscall\": \"connect\",\n        \"address\": \"/tmp/mysql.sock\",\n        \"fatal\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "resetvehicles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/admin/resetstations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetstations"
+							]
+						},
+						"description": "Υποστηρίζει τη μέθοδο POST και προβαίνει σε αρχικοποίηση του πίνακα οχημάτων με τις τιμές που μας δόθηκαν ως ενδεικτικά δεδομένα.\n\n  \nΣε περίπτωση επιτυχίας, επιστρέφεται το json object: {\"status\":\"OK\"}, διαφορετικά  \nεπιστρέφεται {\"status\":\"failed\"} με πληροφορία σχετικά με την αποτυχία."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetstations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetstations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "15"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f-v/Y1JusChTxrQUzPtNAKycooOTA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:30:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetstations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetstations"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "117"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"75-X/leZRc8qVZ7Nr99wSR9SWtvVCI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:25:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"error\": {\n        \"errno\": -2,\n        \"code\": \"ENOENT\",\n        \"syscall\": \"connect\",\n        \"address\": \"/tmp/mysql.sock\",\n        \"fatal\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "resetstations",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/admin/resetstations",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"resetstations"
+							]
+						},
+						"description": "Υποστηρίζει τη μέθοδο POST και αρχικοποιεί τον πίνακα σταθμών διοδίων με τις τιμές που μας δόθηκαν ως ενδεικτικά δεδομένα καθώς και με δικές μας τιμές που περιέχουν τα ονόματα των σταθμών και τα λοιπά δεδομένα που έχουμε επιλέξει να συμπεριλάβουμε στη ΒΔ μας.\n\nΣε περίπτωση επιτυχίας, επιστρέφεται το json object: {\"status\":\"OK\"}, διαφορετικά  \nεπιστρέφεται {\"status\":\"failed\"} με πληροφορία σχετικά με την αποτυχία."
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetstations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetstations"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "15"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f-v/Y1JusChTxrQUzPtNAKycooOTA\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:31:13 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						},
+						{
+							"name": "failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/resetstations",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"resetstations"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "117"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"75-X/leZRc8qVZ7Nr99wSR9SWtvVCI\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:32:23 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"error\": {\n        \"errno\": -2,\n        \"code\": \"ENOENT\",\n        \"syscall\": \"connect\",\n        \"address\": \"/tmp/mysql.sock\",\n        \"fatal\": true\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "fillpasses",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"pm.test(\"Status\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.status).to.eql(\"OK\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/admin/fillpasses",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"admin",
+								"fillpasses"
+							]
+						},
+						"description": "Υποστηρίζει τη μέθοδο POST και προβαίνει σε αρχικοποίηση του πίνακα γεγονότων διέλευσης (διαγράφοντας όλα τα γεγονότα και βάζοντας τα ενδεικτικά δεδομένα που μας δόθηκαν).\n\nΣε περίπτωση επιτυχίας, επιστρέφεται το json object: {\"status\":\"OK\"}, διαφορετικά επιστρέφεται {\"status\":\"failed\"} με πληροφορία σχετικά με την αποτυχία"
+					},
+					"response": [
+						{
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/fillpasses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"fillpasses"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "15"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f-v/Y1JusChTxrQUzPtNAKycooOTA\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 25 Feb 2022 10:48:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"status\": \"OK\"\n}"
+						},
+						{
+							"name": "Failed",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/admin/fillpasses",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"admin",
+										"fillpasses"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": null,
+							"cookie": [],
+							"body": "{\n    \"status\": \"failed\",\n    \"error\": {\n        \"errno\": -2,\n        \"code\": \"ENOENT\",\n        \"syscall\": \"connect\",\n        \"address\": \"/tmp/mysql.sock\",\n        \"fatal\": true\n    }\n}"
+						}
+					]
+				}
+			],
+			"description": "Το back-end υποστηρίζει τα παρακάτω endpoints, τα οποία θα λειτουργήσουν επικουρικά για τον πλήρως αυτοματοποιημένο έλεγχο που θα γίνει κατά την εξέταση της εργασίας"
+		},
+		{
+			"name": "operations",
+			"item": [
+				{
+					"name": "PassesPerStation",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									" pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    });",
+									"    pm.test(\"AO00\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.Station).to.eql(\"AO00\");",
+									"    });",
+									"    pm.test(\"AO00 NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.NumberOfPasses).to.eql(288);",
+									"    });",
+									"    pm.test(\"AO00 period from\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodFrom).to.eql(\"01-01-2019\");",
+									"    });",
+									"    pm.test(\"AO00 period to\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodTo).to.eql(\"01-01-2022\");",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesPerStation",
+								":stationID",
+								":date_from",
+								":date_to"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "stationID",
+									"value": "AO00"
+								},
+								{
+									"key": "date_from",
+									"value": "20190101"
+								},
+								{
+									"key": "date_to",
+									"value": "20220101"
+								}
+							]
+						},
+						"description": "Επιστρέφει λίστα με την ανάλυση των διελεύσεων (Passes) για τον σταθμό διοδίων και για την περίοδο που δίνονται στο URL.\n\nΗ παράσταση ημερομηνιών που επιστρέφονται είναι της μορφής YYYY-MM-DD HH:MM:SS."
+					},
+					"response": [
+						{
+							"name": "json",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesPerStation",
+										":stationID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "stationID",
+											"value": "AO01"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "17481"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"4449-KBCYJAlroW8o4yDVQMnOn6XDfq0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:44:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Station\": \"AO01\",\n    \"RequestTimestamp\": \"2021-12-20 05:44:15\",\n    \"PeriodFrom\": \"01-01-2021\",\n    \"PeriodTo\": \"01-01-2022\",\n    \"NumberOfPasses\": 104,\n    \"PassesList\": [\n        {\n            \"PassIndex\": 1,\n            \"PassID\": \"AHO7151292\",\n            \"PassTimeStamp\": \"2021-10-02T04:09:00.000Z\",\n            \"VehicleID\": \"JF94VYA88954\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 2,\n            \"PassID\": \"AND8655060\",\n            \"PassTimeStamp\": \"2021-08-21T13:34:00.000Z\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 3,\n            \"PassID\": \"ARG9834376\",\n            \"PassTimeStamp\": \"2021-07-12T05:13:00.000Z\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 4,\n            \"PassID\": \"AWN2623201\",\n            \"PassTimeStamp\": \"2021-09-07T08:50:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 5,\n            \"PassID\": \"BAE0207972\",\n            \"PassTimeStamp\": \"2021-01-07T20:34:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 6,\n            \"PassID\": \"BDQ2954216\",\n            \"PassTimeStamp\": \"2021-03-01T22:06:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 7,\n            \"PassID\": \"BDV4851535\",\n            \"PassTimeStamp\": \"2021-05-25T18:15:00.000Z\",\n            \"VehicleID\": \"NZ35XLQ89678\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 8,\n            \"PassID\": \"BKR6101501\",\n            \"PassTimeStamp\": \"2021-03-05T13:01:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 9,\n            \"PassID\": \"BMR0775653\",\n            \"PassTimeStamp\": \"2021-01-09T00:51:00.000Z\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 10,\n            \"PassID\": \"BNV3316403\",\n            \"PassTimeStamp\": \"2021-06-15T03:44:00.000Z\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 11,\n            \"PassID\": \"BRA0918252\",\n            \"PassTimeStamp\": \"2021-07-02T09:27:00.000Z\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 12,\n            \"PassID\": \"CDS9463434\",\n            \"PassTimeStamp\": \"2021-07-07T08:21:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 13,\n            \"PassID\": \"CIN9878963\",\n            \"PassTimeStamp\": \"2021-03-18T05:38:00.000Z\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1.5\n        },\n        {\n            \"PassIndex\": 14,\n            \"PassID\": \"CPA6508235\",\n            \"PassTimeStamp\": \"2021-09-03T21:25:00.000Z\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1.5\n        },\n        {\n            \"PassIndex\": 15,\n            \"PassID\": \"DNN2052578\",\n            \"PassTimeStamp\": \"2021-03-23T05:07:00.000Z\",\n            \"VehicleID\": \"JV67MTI17124\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 16,\n            \"PassID\": \"EAU1788281\",\n            \"PassTimeStamp\": \"2021-01-24T01:13:00.000Z\",\n            \"VehicleID\": \"FL13UMN92207\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 17,\n            \"PassID\": \"EVJ5223670\",\n            \"PassTimeStamp\": \"2021-06-29T16:55:00.000Z\",\n            \"VehicleID\": \"VX68BAR38623\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 18,\n            \"PassID\": \"FGH6976376\",\n            \"PassTimeStamp\": \"2021-10-22T07:02:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 19,\n            \"PassID\": \"FHP3797897\",\n            \"PassTimeStamp\": \"2021-02-26T22:29:00.000Z\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 20,\n            \"PassID\": \"FNW1817015\",\n            \"PassTimeStamp\": \"2021-11-10T05:39:00.000Z\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 21,\n            \"PassID\": \"FVF7842907\",\n            \"PassTimeStamp\": \"2021-05-05T19:01:00.000Z\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 22,\n            \"PassID\": \"GLS2058880\",\n            \"PassTimeStamp\": \"2021-05-10T04:10:00.000Z\",\n            \"VehicleID\": \"QO77TFN61853\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 23,\n            \"PassID\": \"GUH2757069\",\n            \"PassTimeStamp\": \"2021-07-10T09:43:00.000Z\",\n            \"VehicleID\": \"HW75BKT77773\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 24,\n            \"PassID\": \"GVY2121085\",\n            \"PassTimeStamp\": \"2021-08-06T21:54:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 25,\n            \"PassID\": \"HDM2577793\",\n            \"PassTimeStamp\": \"2021-10-16T09:43:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 26,\n            \"PassID\": \"HGU6626228\",\n            \"PassTimeStamp\": \"2021-09-02T22:45:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 27,\n            \"PassID\": \"HJJ9507237\",\n            \"PassTimeStamp\": \"2021-05-26T03:08:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 28,\n            \"PassID\": \"HTO4329072\",\n            \"PassTimeStamp\": \"2021-08-04T10:01:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 29,\n            \"PassID\": \"IGU0809828\",\n            \"PassTimeStamp\": \"2021-06-23T00:30:00.000Z\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 30,\n            \"PassID\": \"IJL0474544\",\n            \"PassTimeStamp\": \"2021-04-21T14:56:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 31,\n            \"PassID\": \"IXJ9264530\",\n            \"PassTimeStamp\": \"2021-05-17T03:36:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 32,\n            \"PassID\": \"JMI2681644\",\n            \"PassTimeStamp\": \"2021-05-26T15:15:00.000Z\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 33,\n            \"PassID\": \"KAR0622866\",\n            \"PassTimeStamp\": \"2021-09-04T14:14:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 34,\n            \"PassID\": \"KAY1005314\",\n            \"PassTimeStamp\": \"2021-10-16T19:42:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 35,\n            \"PassID\": \"KFP1145145\",\n            \"PassTimeStamp\": \"2021-03-06T20:50:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 36,\n            \"PassID\": \"KTL3619561\",\n            \"PassTimeStamp\": \"2021-02-16T15:58:00.000Z\",\n            \"VehicleID\": \"SU00RDZ36214\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 37,\n            \"PassID\": \"KZI8070958\",\n            \"PassTimeStamp\": \"2021-01-06T16:05:00.000Z\",\n            \"VehicleID\": \"VL67TFO75321\",\n            \"TagProvider\": \"egnatia\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 38,\n            \"PassID\": \"LAX2787981\",\n            \"PassTimeStamp\": \"2021-05-13T07:41:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 39,\n            \"PassID\": \"LBK4385474\",\n            \"PassTimeStamp\": \"2021-04-23T10:35:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 40,\n            \"PassID\": \"LOS1925340\",\n            \"PassTimeStamp\": \"2021-05-20T03:43:00.000Z\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1.5\n        },\n        {\n            \"PassIndex\": 41,\n            \"PassID\": \"LPT7572457\",\n            \"PassTimeStamp\": \"2021-05-15T03:27:00.000Z\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"TagProvider\": \"gefyra\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 42,\n            \"PassID\": \"LXC6161800\",\n            \"PassTimeStamp\": \"2021-05-28T07:10:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 43,\n            \"PassID\": \"LYF7275157\",\n            \"PassTimeStamp\": \"2021-07-23T05:25:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 44,\n            \"PassID\": \"MJO8443203\",\n            \"PassTimeStamp\": \"2021-09-10T01:22:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 45,\n            \"PassID\": \"MRQ7456069\",\n            \"PassTimeStamp\": \"2021-02-04T22:39:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 46,\n            \"PassID\": \"MSA1171435\",\n            \"PassTimeStamp\": \"2021-04-05T12:15:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 47,\n            \"PassID\": \"MSS5969206\",\n            \"PassTimeStamp\": \"2021-01-24T18:53:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 48,\n            \"PassID\": \"MTK5213593\",\n            \"PassTimeStamp\": \"2021-03-14T18:53:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 49,\n            \"PassID\": \"NFK3842576\",\n            \"PassTimeStamp\": \"2021-02-09T22:21:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 50,\n            \"PassID\": \"NME5693650\",\n            \"PassTimeStamp\": \"2021-06-03T05:05:00.000Z\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 51,\n            \"PassID\": \"NXW1647029\",\n            \"PassTimeStamp\": \"2021-02-15T19:40:00.000Z\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 52,\n            \"PassID\": \"ODQ2642690\",\n            \"PassTimeStamp\": \"2021-04-05T18:33:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 53,\n            \"PassID\": \"OGG6920467\",\n            \"PassTimeStamp\": \"2021-08-07T00:54:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 54,\n            \"PassID\": \"OIM0348371\",\n            \"PassTimeStamp\": \"2021-01-14T10:49:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 55,\n            \"PassID\": \"ORB7624210\",\n            \"PassTimeStamp\": \"2021-08-11T20:49:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 56,\n            \"PassID\": \"OXO2641231\",\n            \"PassTimeStamp\": \"2021-04-17T02:51:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 57,\n            \"PassID\": \"OZZ6492814\",\n            \"PassTimeStamp\": \"2021-04-24T13:31:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 58,\n            \"PassID\": \"PGR5865071\",\n            \"PassTimeStamp\": \"2021-08-10T22:27:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 59,\n            \"PassID\": \"PHQ2562512\",\n            \"PassTimeStamp\": \"2021-08-22T18:50:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"TagProvider\": \"gefyra\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 60,\n            \"PassID\": \"PUL3540691\",\n            \"PassTimeStamp\": \"2021-03-27T22:34:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 61,\n            \"PassID\": \"QJA4436766\",\n            \"PassTimeStamp\": \"2021-05-22T01:54:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 62,\n            \"PassID\": \"QZH3220325\",\n            \"PassTimeStamp\": \"2021-08-22T22:36:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 63,\n            \"PassID\": \"RBH7171637\",\n            \"PassTimeStamp\": \"2021-02-18T21:16:00.000Z\",\n            \"VehicleID\": \"SY96JDQ97089\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1.5\n        },\n        {\n            \"PassIndex\": 64,\n            \"PassID\": \"REP4271840\",\n            \"PassTimeStamp\": \"2021-08-20T19:36:00.000Z\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 65,\n            \"PassID\": \"RHU2526556\",\n            \"PassTimeStamp\": \"2021-02-06T06:03:00.000Z\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 66,\n            \"PassID\": \"RZB5657028\",\n            \"PassTimeStamp\": \"2021-06-19T17:54:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 67,\n            \"PassID\": \"SAF8302609\",\n            \"PassTimeStamp\": \"2021-04-16T14:54:00.000Z\",\n            \"VehicleID\": \"TZ48CCW54765\",\n            \"TagProvider\": \"egnatia\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 68,\n            \"PassID\": \"SBD6026250\",\n            \"PassTimeStamp\": \"2021-11-01T11:35:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 69,\n            \"PassID\": \"SMZ7151735\",\n            \"PassTimeStamp\": \"2021-11-10T16:58:00.000Z\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 70,\n            \"PassID\": \"SQQ5282321\",\n            \"PassTimeStamp\": \"2021-10-09T03:14:00.000Z\",\n            \"VehicleID\": \"QH15HWX24570\",\n            \"TagProvider\": \"moreas\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 71,\n            \"PassID\": \"SRE0027025\",\n            \"PassTimeStamp\": \"2021-10-12T04:51:00.000Z\",\n            \"VehicleID\": \"WG11QVY31890\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 72,\n            \"PassID\": \"SSQ3472167\",\n            \"PassTimeStamp\": \"2021-02-20T12:46:00.000Z\",\n            \"VehicleID\": \"PM58XHX45588\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 73,\n            \"PassID\": \"TDF6930764\",\n            \"PassTimeStamp\": \"2021-11-13T16:31:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 74,\n            \"PassID\": \"TLM8137163\",\n            \"PassTimeStamp\": \"2021-03-24T17:38:00.000Z\",\n            \"VehicleID\": \"XV91YMP27722\",\n            \"TagProvider\": \"moreas\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 75,\n            \"PassID\": \"UAD2119497\",\n            \"PassTimeStamp\": \"2021-04-06T00:32:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 76,\n            \"PassID\": \"UEC7165460\",\n            \"PassTimeStamp\": \"2021-01-07T10:22:00.000Z\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 77,\n            \"PassID\": \"UED7264556\",\n            \"PassTimeStamp\": \"2021-03-09T17:55:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 78,\n            \"PassID\": \"UKU1776928\",\n            \"PassTimeStamp\": \"2021-10-03T18:36:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 79,\n            \"PassID\": \"UUZ1262649\",\n            \"PassTimeStamp\": \"2021-01-06T03:11:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 80,\n            \"PassID\": \"VFO4498623\",\n            \"PassTimeStamp\": \"2021-08-10T08:06:00.000Z\",\n            \"VehicleID\": \"NO82BAX82566\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 81,\n            \"PassID\": \"VKO6446286\",\n            \"PassTimeStamp\": \"2021-04-01T07:35:00.000Z\",\n            \"VehicleID\": \"ZY93PCY41868\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 82,\n            \"PassID\": \"VRT3760792\",\n            \"PassTimeStamp\": \"2021-03-13T10:38:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"TagProvider\": \"gefyra\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 83,\n            \"PassID\": \"VRV2935879\",\n            \"PassTimeStamp\": \"2021-10-05T20:11:00.000Z\",\n            \"VehicleID\": \"WY00MLL63827\",\n            \"TagProvider\": \"kentriki_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 84,\n            \"PassID\": \"VSK7421583\",\n            \"PassTimeStamp\": \"2021-10-08T10:13:00.000Z\",\n            \"VehicleID\": \"DV04FQL29609\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 85,\n            \"PassID\": \"VYS1216734\",\n            \"PassTimeStamp\": \"2021-11-09T23:05:00.000Z\",\n            \"VehicleID\": \"NO82BAX82566\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 86,\n            \"PassID\": \"VYY5181252\",\n            \"PassTimeStamp\": \"2021-04-06T21:31:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 87,\n            \"PassID\": \"WBF0968362\",\n            \"PassTimeStamp\": \"2021-10-30T05:42:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 88,\n            \"PassID\": \"WCI4230449\",\n            \"PassTimeStamp\": \"2021-01-11T20:20:00.000Z\",\n            \"VehicleID\": \"RR73DWB65452\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 89,\n            \"PassID\": \"WOK5564044\",\n            \"PassTimeStamp\": \"2021-09-20T15:57:00.000Z\",\n            \"VehicleID\": \"LG64ARC91224\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 90,\n            \"PassID\": \"WOU6809247\",\n            \"PassTimeStamp\": \"2021-10-04T18:03:00.000Z\",\n            \"VehicleID\": \"DP11ENT03275\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 3.1\n        },\n        {\n            \"PassIndex\": 91,\n            \"PassID\": \"WVA9224033\",\n            \"PassTimeStamp\": \"2021-04-26T14:00:00.000Z\",\n            \"VehicleID\": \"BK77KNV91142\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 92,\n            \"PassID\": \"WVB1722727\",\n            \"PassTimeStamp\": \"2021-01-23T21:53:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        },\n        {\n            \"PassIndex\": 93,\n            \"PassID\": \"WXQ8487965\",\n            \"PassTimeStamp\": \"2021-03-14T04:02:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 94,\n            \"PassID\": \"XAE8020123\",\n            \"PassTimeStamp\": \"2021-08-26T18:39:00.000Z\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 95,\n            \"PassID\": \"XGP2303605\",\n            \"PassTimeStamp\": \"2021-05-25T18:50:00.000Z\",\n            \"VehicleID\": \"OC94ASJ72024\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 96,\n            \"PassID\": \"XSW6240921\",\n            \"PassTimeStamp\": \"2021-03-09T14:39:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 97,\n            \"PassID\": \"XWQ2852157\",\n            \"PassTimeStamp\": \"2021-01-30T06:30:00.000Z\",\n            \"VehicleID\": \"QX75YWC61835\",\n            \"TagProvider\": \"olympia_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 98,\n            \"PassID\": \"YAK2080808\",\n            \"PassTimeStamp\": \"2021-08-22T12:24:00.000Z\",\n            \"VehicleID\": \"MX39VOS38645\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 99,\n            \"PassID\": \"YOT9716985\",\n            \"PassTimeStamp\": \"2021-10-05T04:35:00.000Z\",\n            \"VehicleID\": \"HT62RDI04611\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 100,\n            \"PassID\": \"ZCT7476541\",\n            \"PassTimeStamp\": \"2021-10-14T15:00:00.000Z\",\n            \"VehicleID\": \"OY94SZK34436\",\n            \"TagProvider\": \"nea_odos\",\n            \"PassType\": \"away\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 101,\n            \"PassID\": \"ZIN3899193\",\n            \"PassTimeStamp\": \"2021-05-27T21:57:00.000Z\",\n            \"VehicleID\": \"YL27IFD65117\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2\n        },\n        {\n            \"PassIndex\": 102,\n            \"PassID\": \"ZMA8459023\",\n            \"PassTimeStamp\": \"2021-03-11T19:45:00.000Z\",\n            \"VehicleID\": \"PE73VJU23485\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 2.8\n        },\n        {\n            \"PassIndex\": 103,\n            \"PassID\": \"ZVC9278425\",\n            \"PassTimeStamp\": \"2021-11-15T04:25:00.000Z\",\n            \"VehicleID\": \"BZ76ROL87339\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 1\n        },\n        {\n            \"PassIndex\": 104,\n            \"PassID\": \"ZXR5575054\",\n            \"PassTimeStamp\": \"2021-11-08T19:15:00.000Z\",\n            \"VehicleID\": \"BM25PHF40639\",\n            \"TagProvider\": \"aodos\",\n            \"PassType\": \"home\",\n            \"PassCharge\": 13\n        }\n    ]\n}"
+						},
+						{
+							"name": "csv",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesPerStation",
+										":stationID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "stationID",
+											"value": "AO01"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "8166"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1fe6-BzOtreDtJ/mQhFZzcHE+Kf30vcs\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:44:47 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Station,StationOperator,RequestTimestamp,PeriodFrom,PeriodTo,NumberOfPasses,PassIndex,PassID,PassTimeStamp,VehicleID,TagProvider,PassType,PassCharge,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,1,AHO7151292,2021-10-02 10:09:00,JF94VYA88954,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,2,AND8655060,2021-08-21 19:34:00,DV04FQL29609,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,3,ARG9834376,2021-07-12 11:13:00,DV04FQL29609,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,4,AWN2623201,2021-09-07 14:50:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,5,BAE0207972,2021-01-08 0:34:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,6,BDQ2954216,2021-03-02 2:06:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,7,BDV4851535,2021-05-26 0:15:00,NZ35XLQ89678,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,8,BKR6101501,2021-03-05 17:01:00,BM25PHF40639,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,9,BMR0775653,2021-01-09 4:51:00,RR73DWB65452,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,10,BNV3316403,2021-06-15 9:44:00,BZ76ROL87339,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,11,BRA0918252,2021-07-02 15:27:00,QX75YWC61835,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,12,CDS9463434,2021-07-07 14:21:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,13,CIN9878963,2021-03-18 9:38:00,SY96JDQ97089,aodos,home,1.5,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,14,CPA6508235,2021-09-04 3:25:00,SY96JDQ97089,aodos,home,1.5,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,15,DNN2052578,2021-03-23 9:07:00,JV67MTI17124,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,16,EAU1788281,2021-01-24 5:13:00,FL13UMN92207,kentriki_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,17,EVJ5223670,2021-06-29 22:55:00,VX68BAR38623,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,18,FGH6976376,2021-10-22 13:02:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,19,FHP3797897,2021-02-27 2:29:00,OC94ASJ72024,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,20,FNW1817015,2021-11-10 9:39:00,RR73DWB65452,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,21,FVF7842907,2021-05-06 1:01:00,BK77KNV91142,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,22,GLS2058880,2021-05-10 10:10:00,QO77TFN61853,kentriki_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,23,GUH2757069,2021-07-10 15:43:00,HW75BKT77773,kentriki_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,24,GVY2121085,2021-08-07 3:54:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,25,HDM2577793,2021-10-16 15:43:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,26,HGU6626228,2021-09-03 4:45:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,27,HJJ9507237,2021-05-26 9:08:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,28,HTO4329072,2021-08-04 16:01:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,29,IGU0809828,2021-06-23 6:30:00,QX75YWC61835,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,30,IJL0474544,2021-04-21 20:56:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,31,IXJ9264530,2021-05-17 9:36:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,32,JMI2681644,2021-05-26 21:15:00,RR73DWB65452,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,33,KAR0622866,2021-09-04 20:14:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,34,KAY1005314,2021-10-17 1:42:00,BM25PHF40639,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,35,KFP1145145,2021-03-07 0:50:00,BM25PHF40639,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,36,KTL3619561,2021-02-16 19:58:00,SU00RDZ36214,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,37,KZI8070958,2021-01-06 20:05:00,VL67TFO75321,egnatia,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,38,LAX2787981,2021-05-13 13:41:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,39,LBK4385474,2021-04-23 16:35:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,40,LOS1925340,2021-05-20 9:43:00,SY96JDQ97089,aodos,home,1.5,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,41,LPT7572457,2021-05-15 9:27:00,SL09NOT64494,gefyra,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,42,LXC6161800,2021-05-28 13:10:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,43,LYF7275157,2021-07-23 11:25:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,44,MJO8443203,2021-09-10 7:22:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,45,MRQ7456069,2021-02-05 2:39:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,46,MSA1171435,2021-04-05 18:15:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,47,MSS5969206,2021-01-24 22:53:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,48,MTK5213593,2021-03-14 22:53:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,49,NFK3842576,2021-02-10 2:21:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,50,NME5693650,2021-06-03 11:05:00,RR73DWB65452,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,51,NXW1647029,2021-02-15 23:40:00,BZ76ROL87339,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,52,ODQ2642690,2021-04-06 0:33:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,53,OGG6920467,2021-08-07 6:54:00,BM25PHF40639,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,54,OIM0348371,2021-01-14 14:49:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,55,ORB7624210,2021-08-12 2:49:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,56,OXO2641231,2021-04-17 8:51:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,57,OZZ6492814,2021-04-24 19:31:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,58,PGR5865071,2021-08-11 4:27:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,59,PHQ2562512,2021-08-23 0:50:00,CP56DAO45598,gefyra,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,60,PUL3540691,2021-03-28 2:34:00,BM25PHF40639,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,61,QJA4436766,2021-05-22 7:54:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,62,QZH3220325,2021-08-23 4:36:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,63,RBH7171637,2021-02-19 1:16:00,SY96JDQ97089,aodos,home,1.5,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,64,REP4271840,2021-08-21 1:36:00,DV04FQL29609,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,65,RHU2526556,2021-02-06 10:03:00,BZ76ROL87339,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,66,RZB5657028,2021-06-19 23:54:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,67,SAF8302609,2021-04-16 20:54:00,TZ48CCW54765,egnatia,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,68,SBD6026250,2021-11-01 15:35:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,69,SMZ7151735,2021-11-10 20:58:00,BK77KNV91142,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,70,SQQ5282321,2021-10-09 9:14:00,QH15HWX24570,moreas,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,71,SRE0027025,2021-10-12 10:51:00,WG11QVY31890,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,72,SSQ3472167,2021-02-20 16:46:00,PM58XHX45588,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,73,TDF6930764,2021-11-13 20:31:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,74,TLM8137163,2021-03-24 21:38:00,XV91YMP27722,moreas,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,75,UAD2119497,2021-04-06 6:32:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,76,UEC7165460,2021-01-07 14:22:00,BZ76ROL87339,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,77,UED7264556,2021-03-09 21:55:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,78,UKU1776928,2021-10-04 0:36:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,79,UUZ1262649,2021-01-06 7:11:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,80,VFO4498623,2021-08-10 14:06:00,NO82BAX82566,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,81,VKO6446286,2021-04-01 13:35:00,ZY93PCY41868,kentriki_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,82,VRT3760792,2021-03-13 14:38:00,JE65QJK64802,gefyra,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,83,VRV2935879,2021-10-06 2:11:00,WY00MLL63827,kentriki_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,84,VSK7421583,2021-10-08 16:13:00,DV04FQL29609,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,85,VYS1216734,2021-11-10 3:05:00,NO82BAX82566,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,86,VYY5181252,2021-04-07 3:31:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,87,WBF0968362,2021-10-30 11:42:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,88,WCI4230449,2021-01-12 0:20:00,RR73DWB65452,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,89,WOK5564044,2021-09-20 21:57:00,LG64ARC91224,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,90,WOU6809247,2021-10-05 0:03:00,DP11ENT03275,aodos,home,3.1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,91,WVA9224033,2021-04-26 20:00:00,BK77KNV91142,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,92,WVB1722727,2021-01-24 1:53:00,BM25PHF40639,aodos,home,13,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,93,WXQ8487965,2021-03-14 8:02:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,94,XAE8020123,2021-08-27 0:39:00,BZ76ROL87339,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,95,XGP2303605,2021-05-26 0:50:00,OC94ASJ72024,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,96,XSW6240921,2021-03-09 18:39:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,97,XWQ2852157,2021-01-30 10:30:00,QX75YWC61835,olympia_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,98,YAK2080808,2021-08-22 18:24:00,MX39VOS38645,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,99,YOT9716985,2021-10-05 10:35:00,HT62RDI04611,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,100,ZCT7476541,2021-10-14 21:00:00,OY94SZK34436,nea_odos,away,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,101,ZIN3899193,2021-05-28 3:57:00,YL27IFD65117,aodos,home,2,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,102,ZMA8459023,2021-03-11 23:45:00,PE73VJU23485,aodos,home,2.8,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,103,ZVC9278425,2021-11-15 8:25:00,BZ76ROL87339,aodos,home,1,\nAO01,undefined,2022-01-24 11:24:19,01-01-2021,01-01-2022,104,104,ZXR5575054,2021-11-08 23:15:00,BM25PHF40639,aodos,home,13"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesPerStation",
+										":stationID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "stationID",
+											"value": "example"
+										},
+										{
+											"key": "date_from",
+											"value": "not"
+										},
+										{
+											"key": "date_to",
+											"value": "valid"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10-kGPsLJQSZM/5jt9Wr4sAK6yoBGc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:40:41 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "400: Bad Request"
+						},
+						{
+							"name": "No data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesPerStation",
+										":stationID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "stationID",
+											"value": "AO01"
+										},
+										{
+											"key": "date_from",
+											"value": "20240101"
+										},
+										{
+											"key": "date_to",
+											"value": "20260101"
+										}
+									]
+								}
+							},
+							"status": "Payment Required",
+							"code": 402,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-I3Gm0tamn9hn3kLB7q14t2siHPU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:45:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "402: No data"
+						},
+						{
+							"name": "500",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesPerStation",
+										":stationID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "stationID",
+											"value": "AO00"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-9YYiQllcLV/xZriv1fk0w3zsYE8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:32:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "500: Internal Server Error \nError: connect ENOENT /tmp/mysql.sock"
+						}
+					]
+				},
+				{
+					"name": "PassesAlloc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"    pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    });",
+									"        pm.test(\"period from\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodFrom).to.eql(\"01-01-2019\");",
+									"    });",
+									"    pm.test(\"period to\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodTo).to.eql(\"01-01-2022\");",
+									"    });",
+									"    pm.test(\"AO NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[0].NumberOfPasses).to.eql(6206);",
+									"    });",
+									"    pm.test(\"EG NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[1].NumberOfPasses).to.eql(4917);",
+									"    });",
+									"    pm.test(\"GE NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[2].NumberOfPasses).to.eql(4084);",
+									"    });",
+									"    pm.test(\"KO NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[3].NumberOfPasses).to.eql(4884);",
+									"    });",
+									"    pm.test(\"MO NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[4].NumberOfPasses).to.eql(4883);",
+									"    });",
+									"    pm.test(\"NE NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[5].NumberOfPasses).to.eql(5536);",
+									"    });",
+									"    pm.test(\"OO NumberOfPasses\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.OPList[6].NumberOfPasses).to.eql(5503);",
+									"    });",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/PassesAlloc/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesAlloc",
+								":date_from",
+								":date_to"
+							],
+							"variable": [
+								{
+									"key": "date_from",
+									"value": "20190101"
+								},
+								{
+									"key": "date_to",
+									"value": "20220101"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "json",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAlloc/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAlloc",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "date_from",
+											"value": "20201001"
+										},
+										{
+											"key": "date_to",
+											"value": "20201101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "419"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a3-KNU9DB6wIRH9tijKB6VbF7IEPzY\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 28 Jan 2022 14:46:28 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"RequestTimestamp\": \"2022-01-28 04:46:28\",\n    \"PeriodFrom\": \"01-10-2020\",\n    \"PeriodTo\": \"01-11-2020\",\n    \"OPList\": [\n        {\n            \"Operator\": \"aodos\",\n            \"NumberOfPasses\": 161\n        },\n        {\n            \"Operator\": \"egnatia\",\n            \"NumberOfPasses\": 148\n        },\n        {\n            \"Operator\": \"gefyra\",\n            \"NumberOfPasses\": 113\n        },\n        {\n            \"Operator\": \"kentriki_odos\",\n            \"NumberOfPasses\": 141\n        },\n        {\n            \"Operator\": \"moreas\",\n            \"NumberOfPasses\": 137\n        },\n        {\n            \"Operator\": \"nea_odos\",\n            \"NumberOfPasses\": 172\n        },\n        {\n            \"Operator\": \"olympia_odos\",\n            \"NumberOfPasses\": 162\n        }\n    ]\n}"
+						},
+						{
+							"name": "csv",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAlloc/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAlloc",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "date_from",
+											"value": "20201001"
+										},
+										{
+											"key": "date_to",
+											"value": "20201101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "453"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c5-wuEHYhC6dmP3jwLg0i5+pOeQpZc\""
+								},
+								{
+									"key": "Date",
+									"value": "Fri, 28 Jan 2022 14:47:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "RequestTimestamp,PeriodFrom,PeriodTo,Operator,NumberOfPasses,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,aodos,161,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,egnatia,148,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,gefyra,113,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,kentriki_odos,141,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,moreas,137,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,nea_odos,172,\n2022-01-28 04:47:07,01-10-2020,01-11-2020,olympia_odos,162"
+						}
+					]
+				},
+				{
+					"name": "PassesAnalysis",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"    pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    });",
+									"        pm.test(\"period from\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodFrom).to.eql(\"01-01-2019\");",
+									"    });",
+									"    pm.test(\"period to\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodTo).to.eql(\"01-01-2022\");",
+									"    });",
+									"    "
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesAnalysis",
+								":op1_ID",
+								":op2_ID",
+								":date_from",
+								":date_to"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "op1_ID",
+									"value": "aodos"
+								},
+								{
+									"key": "op2_ID",
+									"value": "gefyra"
+								},
+								{
+									"key": "date_from",
+									"value": "20190101"
+								},
+								{
+									"key": "date_to",
+									"value": "20220101"
+								}
+							]
+						},
+						"description": "Επιστρέφει λίστα με την ανάλυση ανά σημείο των γεγονότων διέλευσης που πραγματοποιήθηκαν με tag του op2_ID σε σταθμούς του op1_ID.\n\nΌλα τα γεγονότα που επιστρέφονται είναι τύπου \"visitor\"  \nστην κλήση PassesPerStation.\n\nΗ παράσταση ημερομηνιών που επιστρέφονται είναι της  \nμορφής YYYY-MM-DD HH:MM:SS."
+					},
+					"response": [
+						{
+							"name": "json",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to?format=json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAnalysis",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "json"
+										}
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "13579"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"350b-3iAMfjo2oAf17FJC7nzqmr1HRmM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:46:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"op1_ID\": \"aodos\",\n    \"op2_ID\": \"gefyra\",\n    \"RequestTimestamp\": \"2021-12-20 05:46:26\",\n    \"PeriodFrom\": \"01-01-2021\",\n    \"PeriodTo\": \"01-01-2022\",\n    \"NumberOfPasses\": 98,\n    \"PassesList\": [\n        {\n            \"PassIndex\": 1,\n            \"PassID\": \"ADL1668268\",\n            \"StationID\": \"AO18\",\n            \"TimeStamp\": \"2021-02-23T08:31:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 2,\n            \"PassID\": \"AIE3067315\",\n            \"StationID\": \"AO09\",\n            \"TimeStamp\": \"2021-08-13T15:12:00.000Z\",\n            \"VehicleID\": \"XF28DGK65250\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 3,\n            \"PassID\": \"ARE2680161\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-10-20T02:03:00.000Z\",\n            \"VehicleID\": \"XF28DGK65250\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 4,\n            \"PassID\": \"BEQ4377069\",\n            \"StationID\": \"AO00\",\n            \"TimeStamp\": \"2021-03-11T17:25:00.000Z\",\n            \"VehicleID\": \"EN26OAB52983\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 5,\n            \"PassID\": \"BJX5011154\",\n            \"StationID\": \"AO18\",\n            \"TimeStamp\": \"2021-01-30T00:30:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 6,\n            \"PassID\": \"BKY4134853\",\n            \"StationID\": \"AO02\",\n            \"TimeStamp\": \"2021-03-28T23:59:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 7,\n            \"PassID\": \"BLY3593266\",\n            \"StationID\": \"AO17\",\n            \"TimeStamp\": \"2021-05-08T14:17:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 8,\n            \"PassID\": \"BMO3644240\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-04-18T05:03:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 9,\n            \"PassID\": \"BWW6003021\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-06-08T09:06:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 10,\n            \"PassID\": \"CEK8888382\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-11-01T04:21:00.000Z\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 11,\n            \"PassID\": \"CKT9156115\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-09-19T03:32:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 12,\n            \"PassID\": \"CLB9690227\",\n            \"StationID\": \"AO14\",\n            \"TimeStamp\": \"2021-04-06T22:03:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 13,\n            \"PassID\": \"CPZ6039292\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-11-13T00:50:00.000Z\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 14,\n            \"PassID\": \"CSJ4250417\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-09-06T00:58:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 15,\n            \"PassID\": \"CYX0820401\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-03-26T00:16:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 16,\n            \"PassID\": \"DHV9251959\",\n            \"StationID\": \"AO08\",\n            \"TimeStamp\": \"2021-03-18T21:38:00.000Z\",\n            \"VehicleID\": \"KW50MJG67260\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 17,\n            \"PassID\": \"DKE0050035\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-09-07T04:20:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 18,\n            \"PassID\": \"DTQ7885621\",\n            \"StationID\": \"AO14\",\n            \"TimeStamp\": \"2021-10-17T12:19:00.000Z\",\n            \"VehicleID\": \"KW50MJG67260\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 19,\n            \"PassID\": \"EJK9566480\",\n            \"StationID\": \"AO03\",\n            \"TimeStamp\": \"2021-05-22T16:17:00.000Z\",\n            \"VehicleID\": \"BY85QGR11636\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 20,\n            \"PassID\": \"EQT9846654\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-11-12T19:27:00.000Z\",\n            \"VehicleID\": \"YX66XYW62640\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 21,\n            \"PassID\": \"EUA3607117\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-06-01T12:03:00.000Z\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 22,\n            \"PassID\": \"EWP4351555\",\n            \"StationID\": \"AO09\",\n            \"TimeStamp\": \"2021-04-15T13:10:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 23,\n            \"PassID\": \"FTM2066522\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-07-28T07:34:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 24,\n            \"PassID\": \"GAR1778319\",\n            \"StationID\": \"AO09\",\n            \"TimeStamp\": \"2021-02-01T09:48:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 25,\n            \"PassID\": \"GAU6458371\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-02-11T22:36:00.000Z\",\n            \"VehicleID\": \"BY85QGR11636\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 26,\n            \"PassID\": \"GKT6381483\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-10-11T12:09:00.000Z\",\n            \"VehicleID\": \"BY85QGR11636\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 27,\n            \"PassID\": \"GTI6150880\",\n            \"StationID\": \"AO00\",\n            \"TimeStamp\": \"2021-04-25T18:40:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 28,\n            \"PassID\": \"HAW3137792\",\n            \"StationID\": \"AO06\",\n            \"TimeStamp\": \"2021-10-06T14:48:00.000Z\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 29,\n            \"PassID\": \"HFH8169167\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-05-02T21:42:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 30,\n            \"PassID\": \"HRB1802027\",\n            \"StationID\": \"AO04\",\n            \"TimeStamp\": \"2021-07-07T15:57:00.000Z\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 31,\n            \"PassID\": \"HRL9640825\",\n            \"StationID\": \"AO14\",\n            \"TimeStamp\": \"2021-10-05T12:52:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 32,\n            \"PassID\": \"IBO1519820\",\n            \"StationID\": \"AO16\",\n            \"TimeStamp\": \"2021-09-09T16:08:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 33,\n            \"PassID\": \"IKG4767514\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-10-14T03:12:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 34,\n            \"PassID\": \"JMQ4647449\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-03-17T03:27:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 35,\n            \"PassID\": \"JVI7225957\",\n            \"StationID\": \"AO04\",\n            \"TimeStamp\": \"2021-11-10T14:51:00.000Z\",\n            \"VehicleID\": \"EN26OAB52983\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 36,\n            \"PassID\": \"JXV2612772\",\n            \"StationID\": \"AO07\",\n            \"TimeStamp\": \"2021-11-01T19:18:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 37,\n            \"PassID\": \"KHQ4041025\",\n            \"StationID\": \"AO17\",\n            \"TimeStamp\": \"2021-08-17T13:47:00.000Z\",\n            \"VehicleID\": \"YX66XYW62640\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 38,\n            \"PassID\": \"KJI5091439\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-01-10T01:14:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 39,\n            \"PassID\": \"KJZ2226650\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-01-01T02:25:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 40,\n            \"PassID\": \"KPL9509172\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-04-12T06:49:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 41,\n            \"PassID\": \"KQN2183627\",\n            \"StationID\": \"AO14\",\n            \"TimeStamp\": \"2021-04-07T19:31:00.000Z\",\n            \"VehicleID\": \"EN26OAB52983\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 42,\n            \"PassID\": \"KRE2117703\",\n            \"StationID\": \"AO11\",\n            \"TimeStamp\": \"2021-03-11T17:50:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 43,\n            \"PassID\": \"KRM9893062\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-08-07T14:43:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 44,\n            \"PassID\": \"KUI0336048\",\n            \"StationID\": \"AO17\",\n            \"TimeStamp\": \"2021-07-07T06:01:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 45,\n            \"PassID\": \"LFK5388540\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-09-09T18:54:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 46,\n            \"PassID\": \"LPT7572457\",\n            \"StationID\": \"AO01\",\n            \"TimeStamp\": \"2021-05-15T03:27:00.000Z\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 47,\n            \"PassID\": \"MAG8227931\",\n            \"StationID\": \"AO09\",\n            \"TimeStamp\": \"2021-08-25T11:10:00.000Z\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 48,\n            \"PassID\": \"MCY7543417\",\n            \"StationID\": \"AO14\",\n            \"TimeStamp\": \"2021-01-26T17:26:00.000Z\",\n            \"VehicleID\": \"KW50MJG67260\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 49,\n            \"PassID\": \"MRJ9194771\",\n            \"StationID\": \"AO03\",\n            \"TimeStamp\": \"2021-05-10T01:35:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 50,\n            \"PassID\": \"NPT6582313\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-10-21T07:05:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 51,\n            \"PassID\": \"NWY0357703\",\n            \"StationID\": \"AO08\",\n            \"TimeStamp\": \"2021-03-02T21:49:00.000Z\",\n            \"VehicleID\": \"UF84JOS00561\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 52,\n            \"PassID\": \"OKC7075743\",\n            \"StationID\": \"AO07\",\n            \"TimeStamp\": \"2021-05-21T15:10:00.000Z\",\n            \"VehicleID\": \"WU78BMX13511\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 53,\n            \"PassID\": \"ONA1797512\",\n            \"StationID\": \"AO16\",\n            \"TimeStamp\": \"2021-08-01T10:13:00.000Z\",\n            \"VehicleID\": \"UF84JOS00561\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 54,\n            \"PassID\": \"ORH6084497\",\n            \"StationID\": \"AO16\",\n            \"TimeStamp\": \"2021-06-22T06:48:00.000Z\",\n            \"VehicleID\": \"WU78BMX13511\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 55,\n            \"PassID\": \"OVV7028068\",\n            \"StationID\": \"AO09\",\n            \"TimeStamp\": \"2021-04-27T02:40:00.000Z\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 56,\n            \"PassID\": \"PGB6355942\",\n            \"StationID\": \"AO17\",\n            \"TimeStamp\": \"2021-07-15T04:12:00.000Z\",\n            \"VehicleID\": \"QN12NTR81378\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 57,\n            \"PassID\": \"PHQ2562512\",\n            \"StationID\": \"AO01\",\n            \"TimeStamp\": \"2021-08-22T18:50:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 58,\n            \"PassID\": \"PHX2918492\",\n            \"StationID\": \"AO17\",\n            \"TimeStamp\": \"2021-05-23T16:28:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 59,\n            \"PassID\": \"PLV6834519\",\n            \"StationID\": \"AO08\",\n            \"TimeStamp\": \"2021-10-10T06:45:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 60,\n            \"PassID\": \"PMN0357680\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-08-28T17:20:00.000Z\",\n            \"VehicleID\": \"KW50MJG67260\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 61,\n            \"PassID\": \"PQW8104718\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-03-10T00:08:00.000Z\",\n            \"VehicleID\": \"BY85QGR11636\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 62,\n            \"PassID\": \"PTQ2179983\",\n            \"StationID\": \"AO00\",\n            \"TimeStamp\": \"2021-06-05T13:07:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 63,\n            \"PassID\": \"QNU5555869\",\n            \"StationID\": \"AO06\",\n            \"TimeStamp\": \"2021-04-25T04:45:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 64,\n            \"PassID\": \"QTH4908145\",\n            \"StationID\": \"AO06\",\n            \"TimeStamp\": \"2021-09-03T06:46:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 65,\n            \"PassID\": \"QXW9870838\",\n            \"StationID\": \"AO17\",\n            \"TimeStamp\": \"2021-04-08T13:33:00.000Z\",\n            \"VehicleID\": \"UF84JOS00561\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 66,\n            \"PassID\": \"QYJ2502351\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-11-12T19:25:00.000Z\",\n            \"VehicleID\": \"EN26OAB52983\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 67,\n            \"PassID\": \"ROO3813602\",\n            \"StationID\": \"AO00\",\n            \"TimeStamp\": \"2021-09-25T01:43:00.000Z\",\n            \"VehicleID\": \"XF28DGK65250\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 68,\n            \"PassID\": \"RQH6255145\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-07-05T17:47:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 69,\n            \"PassID\": \"RRZ8293377\",\n            \"StationID\": \"AO04\",\n            \"TimeStamp\": \"2021-06-29T03:58:00.000Z\",\n            \"VehicleID\": \"UF84JOS00561\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 70,\n            \"PassID\": \"RSH3155200\",\n            \"StationID\": \"AO07\",\n            \"TimeStamp\": \"2021-08-05T04:15:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 71,\n            \"PassID\": \"RWD0793044\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-05-04T20:43:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 72,\n            \"PassID\": \"SGC4144193\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-10-05T17:58:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 73,\n            \"PassID\": \"SOA1316419\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-01-10T21:03:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 74,\n            \"PassID\": \"SOU3963571\",\n            \"StationID\": \"AO14\",\n            \"TimeStamp\": \"2021-07-19T07:01:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 75,\n            \"PassID\": \"SWM0851441\",\n            \"StationID\": \"AO10\",\n            \"TimeStamp\": \"2021-09-22T00:37:00.000Z\",\n            \"VehicleID\": \"XF28DGK65250\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 76,\n            \"PassID\": \"TDF5497486\",\n            \"StationID\": \"AO08\",\n            \"TimeStamp\": \"2021-08-24T13:31:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 77,\n            \"PassID\": \"TGG6206347\",\n            \"StationID\": \"AO06\",\n            \"TimeStamp\": \"2021-10-10T18:52:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 78,\n            \"PassID\": \"TKR4702702\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-06-03T04:31:00.000Z\",\n            \"VehicleID\": \"MA30QLI76818\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 79,\n            \"PassID\": \"TTX6349094\",\n            \"StationID\": \"AO18\",\n            \"TimeStamp\": \"2021-07-03T23:01:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 80,\n            \"PassID\": \"TYU6608700\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-02-08T07:58:00.000Z\",\n            \"VehicleID\": \"KW50MJG67260\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 81,\n            \"PassID\": \"UFJ2521013\",\n            \"StationID\": \"AO09\",\n            \"TimeStamp\": \"2021-03-23T10:43:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 82,\n            \"PassID\": \"UFL2436261\",\n            \"StationID\": \"AO06\",\n            \"TimeStamp\": \"2021-01-24T04:33:00.000Z\",\n            \"VehicleID\": \"CK97FAU13897\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 83,\n            \"PassID\": \"UHX5587501\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-04-03T06:34:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 84,\n            \"PassID\": \"USW5000540\",\n            \"StationID\": \"AO16\",\n            \"TimeStamp\": \"2021-07-19T00:15:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 85,\n            \"PassID\": \"VEB5413235\",\n            \"StationID\": \"AO06\",\n            \"TimeStamp\": \"2021-04-21T04:59:00.000Z\",\n            \"VehicleID\": \"IO09FGE68100\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 86,\n            \"PassID\": \"VNQ2646086\",\n            \"StationID\": \"AO03\",\n            \"TimeStamp\": \"2021-01-16T13:58:00.000Z\",\n            \"VehicleID\": \"BY85QGR11636\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 87,\n            \"PassID\": \"VQE6468917\",\n            \"StationID\": \"AO18\",\n            \"TimeStamp\": \"2021-08-01T05:25:00.000Z\",\n            \"VehicleID\": \"EN26OAB52983\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 88,\n            \"PassID\": \"VQH6741796\",\n            \"StationID\": \"AO07\",\n            \"TimeStamp\": \"2021-09-13T01:05:00.000Z\",\n            \"VehicleID\": \"YX66XYW62640\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 89,\n            \"PassID\": \"VRT3760792\",\n            \"StationID\": \"AO01\",\n            \"TimeStamp\": \"2021-03-13T10:38:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 90,\n            \"PassID\": \"VWC7666391\",\n            \"StationID\": \"AO12\",\n            \"TimeStamp\": \"2021-08-19T05:12:00.000Z\",\n            \"VehicleID\": \"UF84JOS00561\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 91,\n            \"PassID\": \"WFY6778676\",\n            \"StationID\": \"AO00\",\n            \"TimeStamp\": \"2021-01-21T02:12:00.000Z\",\n            \"VehicleID\": \"CP56DAO45598\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 92,\n            \"PassID\": \"WMO4899372\",\n            \"StationID\": \"AO05\",\n            \"TimeStamp\": \"2021-01-09T15:55:00.000Z\",\n            \"VehicleID\": \"MP14WFM40909\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 93,\n            \"PassID\": \"XRI8587365\",\n            \"StationID\": \"AO08\",\n            \"TimeStamp\": \"2021-08-18T22:01:00.000Z\",\n            \"VehicleID\": \"SL09NOT64494\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 94,\n            \"PassID\": \"YFF2418945\",\n            \"StationID\": \"AO13\",\n            \"TimeStamp\": \"2021-01-31T18:37:00.000Z\",\n            \"VehicleID\": \"JE65QJK64802\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 95,\n            \"PassID\": \"YKX3488076\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-06-19T20:33:00.000Z\",\n            \"VehicleID\": \"LM86GYO69819\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 96,\n            \"PassID\": \"YRT5237224\",\n            \"StationID\": \"AO11\",\n            \"TimeStamp\": \"2021-11-14T15:44:00.000Z\",\n            \"VehicleID\": \"YX66XYW62640\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 97,\n            \"PassID\": \"ZMW8484585\",\n            \"StationID\": \"AO16\",\n            \"TimeStamp\": \"2021-07-18T12:39:00.000Z\",\n            \"VehicleID\": \"PF04UCA93312\",\n            \"Charge\": 2.8\n        },\n        {\n            \"PassIndex\": 98,\n            \"PassID\": \"ZXC1149953\",\n            \"StationID\": \"AO15\",\n            \"TimeStamp\": \"2021-08-04T16:01:00.000Z\",\n            \"VehicleID\": \"BY85QGR11636\",\n            \"Charge\": 2.8\n        }\n    ]\n}"
+						},
+						{
+							"name": "csv",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAnalysis",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "6818"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1aa2-hVMlH4KL7yIOGmHsZub8RichW/M\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:50:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "op1_ID,op2_ID,RequestTimestamp,PeriodFrom,PeriodTo,NumberOfPasses,PassIndex,PassID,StationID,TimeStamp,VehicleID,Charge,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,1,ADL1668268,AO18,2021-02-23 12:31,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,2,AIE3067315,AO09,2021-08-13 21:12,XF28DGK65250,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,3,ARE2680161,AO10,2021-10-20 8:03,XF28DGK65250,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,4,BEQ4377069,AO00,2021-03-11 21:25,EN26OAB52983,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,5,BJX5011154,AO18,2021-01-30 4:30,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,6,BKY4134853,AO02,2021-03-29 5:59,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,7,BLY3593266,AO17,2021-05-08 20:17,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,8,BMO3644240,AO05,2021-04-18 11:03,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,9,BWW6003021,AO12,2021-06-08 15:06,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,10,CEK8888382,AO12,2021-11-01 8:21,CK97FAU13897,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,11,CKT9156115,AO05,2021-09-19 9:32,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,12,CLB9690227,AO14,2021-04-07 4:03,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,13,CPZ6039292,AO15,2021-11-13 4:50,CK97FAU13897,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,14,CSJ4250417,AO12,2021-09-06 6:58,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,15,CYX0820401,AO12,2021-03-26 4:16,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,16,DHV9251959,AO08,2021-03-19 1:38,KW50MJG67260,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,17,DKE0050035,AO13,2021-09-07 10:20,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,18,DTQ7885621,AO14,2021-10-17 18:19,KW50MJG67260,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,19,EJK9566480,AO03,2021-05-22 22:17,BY85QGR11636,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,20,EQT9846654,AO13,2021-11-12 23:27,YX66XYW62640,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,21,EUA3607117,AO10,2021-06-01 18:03,SL09NOT64494,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,22,EWP4351555,AO09,2021-04-15 19:10,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,23,FTM2066522,AO10,2021-07-28 13:34,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,24,GAR1778319,AO09,2021-02-01 13:48,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,25,GAU6458371,AO05,2021-02-12 2:36,BY85QGR11636,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,26,GKT6381483,AO13,2021-10-11 18:09,BY85QGR11636,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,27,GTI6150880,AO00,2021-04-26 0:40,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,28,HAW3137792,AO06,2021-10-06 20:48,CK97FAU13897,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,29,HFH8169167,AO10,2021-05-03 3:42,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,30,HRB1802027,AO04,2021-07-07 21:57,CK97FAU13897,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,31,HRL9640825,AO14,2021-10-05 18:52,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,32,IBO1519820,AO16,2021-09-09 22:08,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,33,IKG4767514,AO15,2021-10-14 9:12,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,34,JMQ4647449,AO10,2021-03-17 7:27,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,35,JVI7225957,AO04,2021-11-10 18:51,EN26OAB52983,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,36,JXV2612772,AO07,2021-11-01 23:18,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,37,KHQ4041025,AO17,2021-08-17 19:47,YX66XYW62640,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,38,KJI5091439,AO12,2021-01-10 5:14,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,39,KJZ2226650,AO15,2021-01-01 6:25,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,40,KPL9509172,AO05,2021-04-12 12:49,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,41,KQN2183627,AO14,2021-04-08 1:31,EN26OAB52983,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,42,KRE2117703,AO11,2021-03-11 21:50,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,43,KRM9893062,AO15,2021-08-07 20:43,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,44,KUI0336048,AO17,2021-07-07 12:01,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,45,LFK5388540,AO12,2021-09-10 0:54,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,46,LPT7572457,AO01,2021-05-15 9:27,SL09NOT64494,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,47,MAG8227931,AO09,2021-08-25 17:10,CK97FAU13897,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,48,MCY7543417,AO14,2021-01-26 21:26,KW50MJG67260,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,49,MRJ9194771,AO03,2021-05-10 7:35,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,50,NPT6582313,AO15,2021-10-21 13:05,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,51,NWY0357703,AO08,2021-03-03 1:49,UF84JOS00561,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,52,OKC7075743,AO07,2021-05-21 21:10,WU78BMX13511,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,53,ONA1797512,AO16,2021-08-01 16:13,UF84JOS00561,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,54,ORH6084497,AO16,2021-06-22 12:48,WU78BMX13511,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,55,OVV7028068,AO09,2021-04-27 8:40,SL09NOT64494,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,56,PGB6355942,AO17,2021-07-15 10:12,QN12NTR81378,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,57,PHQ2562512,AO01,2021-08-23 0:50,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,58,PHX2918492,AO17,2021-05-23 22:28,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,59,PLV6834519,AO08,2021-10-10 12:45,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,60,PMN0357680,AO12,2021-08-28 23:20,KW50MJG67260,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,61,PQW8104718,AO13,2021-03-10 4:08,BY85QGR11636,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,62,PTQ2179983,AO00,2021-06-05 19:07,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,63,QNU5555869,AO06,2021-04-25 10:45,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,64,QTH4908145,AO06,2021-09-03 12:46,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,65,QXW9870838,AO17,2021-04-08 19:33,UF84JOS00561,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,66,QYJ2502351,AO13,2021-11-12 23:25,EN26OAB52983,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,67,ROO3813602,AO00,2021-09-25 7:43,XF28DGK65250,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,68,RQH6255145,AO05,2021-07-05 23:47,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,69,RRZ8293377,AO04,2021-06-29 9:58,UF84JOS00561,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,70,RSH3155200,AO07,2021-08-05 10:15,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,71,RWD0793044,AO05,2021-05-05 2:43,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,72,SGC4144193,AO12,2021-10-05 23:58,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,73,SOA1316419,AO10,2021-01-11 1:03,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,74,SOU3963571,AO14,2021-07-19 13:01,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,75,SWM0851441,AO10,2021-09-22 6:37,XF28DGK65250,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,76,TDF5497486,AO08,2021-08-24 19:31,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,77,TGG6206347,AO06,2021-10-11 0:52,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,78,TKR4702702,AO12,2021-06-03 10:31,MA30QLI76818,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,79,TTX6349094,AO18,2021-07-04 5:01,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,80,TYU6608700,AO05,2021-02-08 11:58,KW50MJG67260,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,81,UFJ2521013,AO09,2021-03-23 14:43,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,82,UFL2436261,AO06,2021-01-24 8:33,CK97FAU13897,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,83,UHX5587501,AO13,2021-04-03 12:34,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,84,USW5000540,AO16,2021-07-19 6:15,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,85,VEB5413235,AO06,2021-04-21 10:59,IO09FGE68100,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,86,VNQ2646086,AO03,2021-01-16 17:58,BY85QGR11636,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,87,VQE6468917,AO18,2021-08-01 11:25,EN26OAB52983,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,88,VQH6741796,AO07,2021-09-13 7:05,YX66XYW62640,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,89,VRT3760792,AO01,2021-03-13 14:38,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,90,VWC7666391,AO12,2021-08-19 11:12,UF84JOS00561,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,91,WFY6778676,AO00,2021-01-21 6:12,CP56DAO45598,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,92,WMO4899372,AO05,2021-01-09 19:55,MP14WFM40909,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,93,XRI8587365,AO08,2021-08-19 4:01,SL09NOT64494,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,94,YFF2418945,AO13,2021-01-31 22:37,JE65QJK64802,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,95,YKX3488076,AO15,2021-06-20 2:33,LM86GYO69819,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,96,YRT5237224,AO11,2021-11-14 19:44,YX66XYW62640,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,97,ZMW8484585,AO16,2021-07-18 18:39,PF04UCA93312,2.8,\naodos,gefyra,2022-01-24 10:39:40,01-01-2021,01-01-2022,98,98,ZXC1149953,AO15,2021-08-04 22:01,BY85QGR11636,2.8"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAnalysis",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "exmple"
+										},
+										{
+											"key": "op2_ID",
+											"value": "also"
+										},
+										{
+											"key": "date_from",
+											"value": "not"
+										},
+										{
+											"key": "date_to",
+											"value": "valid"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10-kGPsLJQSZM/5jt9Wr4sAK6yoBGc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:41:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "400: Bad Request"
+						},
+						{
+							"name": "No data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to?format=json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAnalysis",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "json"
+										}
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20240101"
+										},
+										{
+											"key": "date_to",
+											"value": "20260101"
+										}
+									]
+								}
+							},
+							"status": "Payment Required",
+							"code": 402,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-I3Gm0tamn9hn3kLB7q14t2siHPU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:50:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "402: No data"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesAnalysis",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-9YYiQllcLV/xZriv1fk0w3zsYE8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:32:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "500: Internal Server Error \nError: connect ENOENT /tmp/mysql.sock"
+						}
+					]
+				},
+				{
+					"name": "PassesCost",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"    pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    });",
+									"        pm.test(\"period from\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodFrom).to.eql(\"01-10-2020\");",
+									"    });",
+									"    pm.test(\"period to\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodTo).to.eql(\"01-11-2020\");",
+									"    });",
+									"",
+									"pm.test(\"Aodos\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.op1_ID).to.eql(\"aodos\");",
+									"});",
+									"pm.test(\"Gefyra\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.op2_ID).to.eql(\"gefyra\");",
+									"});",
+									"pm.test(\"Passes Cost\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.PassesCost).to.eql(16.8);",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesCost",
+								":op1_ID",
+								":op2_ID",
+								":date_from",
+								":date_to"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "op1_ID",
+									"value": "aodos"
+								},
+								{
+									"key": "op2_ID",
+									"value": "gefyra"
+								},
+								{
+									"key": "date_from",
+									"value": "20201001"
+								},
+								{
+									"key": "date_to",
+									"value": "20201101"
+								}
+							]
+						},
+						"description": "Επιστρέφει τον αριθμό των γεγονότων διέλευσης που πραγματοποιήθηκαν με tag του op2_ID σε σταθμούς του op1_ID, καθώς και το κόστος τους, δηλαδή το ποσό που ο op2_ID οφείλει στον op1_ID, για τη δοσμένη περίοδο"
+					},
+					"response": [
+						{
+							"name": "json",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to?format=json",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesCost",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "json"
+										}
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "166"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a6-P1fASYzIe1UrxV5Rh6uT9pNqAhE\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:53:31 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"op1_ID\": \"aodos\",\n    \"op2_ID\": \"gefyra\",\n    \"RequestTimestamp\": \"2021-12-20 05:53:31\",\n    \"PeriodFrom\": \"01-01-2021\",\n    \"PeriodTo\": \"01-01-2022\",\n    \"NumberOfPasses\": 98,\n    \"PassesCost\": 274.4\n}"
+						},
+						{
+							"name": "csv",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesCost",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "38"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"26-2tz572ARY0kD6GUKzZsc+4L7kUk\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:53:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "op1_ID,op2_ID,RequestTimestamp,PeriodFrom,PeriodTo,NumberOfPasses,PassesCost,\naodos,gefyra,2022-01-24 08:21:54,01-01-2021,01-01-2022,98"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesCost",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "example"
+										},
+										{
+											"key": "op2_ID",
+											"value": "also"
+										},
+										{
+											"key": "date_from",
+											"value": "not "
+										},
+										{
+											"key": "date_to",
+											"value": "valid"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10-kGPsLJQSZM/5jt9Wr4sAK6yoBGc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:41:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "400: Bad Request"
+						},
+						{
+							"name": "No data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesCost",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "operator not in DB"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "Payment Required",
+							"code": 402,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-I3Gm0tamn9hn3kLB7q14t2siHPU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:56:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "402: No data"
+						},
+						{
+							"name": "Internal Server Error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/PassesCost/:op1_ID/:op2_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"PassesCost",
+										":op1_ID",
+										":op2_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op1_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "op2_ID",
+											"value": "gefyra"
+										},
+										{
+											"key": "date_from",
+											"value": "20190101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-9YYiQllcLV/xZriv1fk0w3zsYE8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:32:53 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "500: Internal Server Error \nError: connect ENOENT /tmp/mysql.sock"
+						}
+					]
+				},
+				{
+					"name": "ChargesBy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"    pm.test(\"Status code is 200\", function () {",
+									"    pm.response.to.have.status(200);",
+									"    });",
+									"        pm.test(\"period from\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodFrom).to.eql(\"01-10-2020\");",
+									"    });",
+									"    pm.test(\"period to\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PeriodTo).to.eql(\"01-11-2020\");",
+									"    });",
+									"",
+									"pm.test(\"Aodos\", function () {",
+									"    var jsonData = pm.response.json();",
+									"    pm.expect(jsonData.op_ID).to.eql(\"aodos\");",
+									"});",
+									"    pm.test(\"EG VisitingOperator\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PPOList[0].PassesCost).to.eql(19.6);",
+									"    });",
+									"    pm.test(\"GE VisitingOperator\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PPOList[1].PassesCost).to.eql(16.8);",
+									"    });",
+									"    pm.test(\"KO VisitingOperator\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PPOList[2].PassesCost).to.eql(28);",
+									"    });",
+									"    pm.test(\"MO VisitingOperator\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PPOList[3].PassesCost).to.eql(16.8);",
+									"    });",
+									"    pm.test(\"NE VisitingOperator\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PPOList[4].PassesCost).to.eql(16.8);",
+									"    });",
+									"    pm.test(\"OO VisitingOperator\", function () {",
+									"        var jsonData = pm.response.json();",
+									"        pm.expect(jsonData.PPOList[5].PassesCost).to.eql(39.2);",
+									"    });"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"ChargesBy",
+								":op_ID",
+								":date_from",
+								":date_to"
+							],
+							"query": [
+								{
+									"key": "format",
+									"value": null,
+									"disabled": true
+								}
+							],
+							"variable": [
+								{
+									"key": "op_ID",
+									"value": "aodos"
+								},
+								{
+									"key": "date_from",
+									"value": "20201001"
+								},
+								{
+									"key": "date_to",
+									"value": "20201101"
+								}
+							]
+						},
+						"description": "Επιστρέφει τον αριθμό των γεγονότων διέλευσης που πραγματοποιήθηκαν σε σταθμούς του op_ID, από οχήματα όλων των άλλων operators, καθώς και το κόστος τους, δηλαδή το ποσό που καθένας από τους λοιπούς operators οφείλει στον Operator op_ID, για τη δοσμένη περίοδο."
+					},
+					"response": [
+						{
+							"name": "json",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"ChargesBy",
+										":op_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "546"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"222-keL6B8U8NYz24w8JrIJNzqDLwtM\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:57:26 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"op_ID\": \"aodos\",\n    \"RequestTimestamp\": \"2021-12-20 05:57:26\",\n    \"PeriodFrom\": \"01-01-2021\",\n    \"PeriodTo\": \"01-01-2022\",\n    \"PPOList\": [\n        {\n            \"VisitingOperator\": \"gefyra\",\n            \"NumberOfPasses\": 98,\n            \"PassesCost\": 274.4\n        },\n        {\n            \"VisitingOperator\": \"moreas\",\n            \"NumberOfPasses\": 86,\n            \"PassesCost\": 240.8\n        },\n        {\n            \"VisitingOperator\": \"kentriki_odos\",\n            \"NumberOfPasses\": 95,\n            \"PassesCost\": 266\n        },\n        {\n            \"VisitingOperator\": \"nea_odos\",\n            \"NumberOfPasses\": 94,\n            \"PassesCost\": 263.2\n        },\n        {\n            \"VisitingOperator\": \"olympia_odos\",\n            \"NumberOfPasses\": 80,\n            \"PassesCost\": 224\n        },\n        {\n            \"VisitingOperator\": \"egnatia\",\n            \"NumberOfPasses\": 89,\n            \"PassesCost\": 249.2\n        }\n    ]\n}"
+						},
+						{
+							"name": "csv",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"ChargesBy",
+										":op_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "op_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "date_from",
+											"value": "20210101"
+										},
+										{
+											"key": "date_to",
+											"value": "20220101"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "168"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"a8-omsaUWvkQc3npxPuKK6vfgBXVH0\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:57:42 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "op_ID,RequestTimestamp,PeriodFrom,PeriodTo,VisitingOperator,NumberOfPasses,PassesCost,\naodos,2022-01-24 08:22:25,01-01-2021,01-01-2022,gefyra,98,274.4,\naodos,2022-01-24 08:22:25,01-01-2021,01-01-2022,moreas,86,240.8,\naodos,2022-01-24 08:22:25,01-01-2021,01-01-2022,kentriki_odos,95,266,\naodos,2022-01-24 08:22:25,01-01-2021,01-01-2022,nea_odos,94,263.2,\naodos,2022-01-24 08:22:25,01-01-2021,01-01-2022,olympia_odos,80,224,\naodos,2022-01-24 08:22:25,01-01-2021,01-01-2022,egnatia,89,249.2"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"ChargesBy",
+										":op_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op_ID",
+											"value": "example"
+										},
+										{
+											"key": "date_from",
+											"value": "not"
+										},
+										{
+											"key": "date_to",
+											"value": "valid"
+										}
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "16"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"10-kGPsLJQSZM/5jt9Wr4sAK6yoBGc\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:41:58 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "400: Bad Request"
+						},
+						{
+							"name": "No data",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to?format=csv",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"ChargesBy",
+										":op_ID",
+										":date_from",
+										":date_to"
+									],
+									"query": [
+										{
+											"key": "format",
+											"value": "csv"
+										}
+									],
+									"variable": [
+										{
+											"key": "op_ID",
+											"value": "aodos"
+										},
+										{
+											"key": "date_from",
+											"value": "20230101"
+										},
+										{
+											"key": "date_to",
+											"value": "20240101"
+										}
+									]
+								}
+							},
+							"status": "Payment Required",
+							"code": 402,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "12"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c-I3Gm0tamn9hn3kLB7q14t2siHPU\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:58:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "402: No data"
+						},
+						{
+							"name": "Bad Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:9103/interoperability/api/ChargesBy/:op_ID/:date_from/:date_to",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "9103",
+									"path": [
+										"interoperability",
+										"api",
+										"ChargesBy",
+										":op_ID",
+										":date_from",
+										":date_to"
+									],
+									"variable": [
+										{
+											"key": "op_ID",
+											"value": null
+										},
+										{
+											"key": "date_from",
+											"value": null
+										},
+										{
+											"key": "date_to",
+											"value": null
+										}
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-9YYiQllcLV/xZriv1fk0w3zsYE8\""
+								},
+								{
+									"key": "Date",
+									"value": "Mon, 20 Dec 2021 15:38:38 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "500: Internal Server Error \nError: connect ENOENT /tmp/mysql.sock"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "EXAM",
+			"item": [
+				{
+					"name": "PassesPerStation",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/PassesPerStation/:stationID/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesPerStation",
+								":stationID",
+								":date_from",
+								":date_to"
+							],
+							"variable": [
+								{
+									"key": "stationID",
+									"value": "AO10"
+								},
+								{
+									"key": "date_from",
+									"value": "20201001"
+								},
+								{
+									"key": "date_to",
+									"value": "20201031"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PassesAnalysis",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api/PassesAnalysis/:op1_ID/:op2_ID/:date_from/:date_to",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api",
+								"PassesAnalysis",
+								":op1_ID",
+								":op2_ID",
+								":date_from",
+								":date_to"
+							],
+							"variable": [
+								{
+									"key": "op1_ID",
+									"value": null
+								},
+								{
+									"key": "op2_ID",
+									"value": null
+								},
+								{
+									"key": "date_from",
+									"value": null
+								},
+								{
+									"key": "date_to",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "baseURL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:9103/interoperability/api",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "9103",
+					"path": [
+						"interoperability",
+						"api"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "baseURL",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:9103/interoperability/api",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "9103",
+							"path": [
+								"interoperability",
+								"api"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "html",
+					"header": [
+						{
+							"key": "X-Powered-By",
+							"value": "Express"
+						},
+						{
+							"key": "Accept-Ranges",
+							"value": "bytes"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "public, max-age=0"
+						},
+						{
+							"key": "Last-Modified",
+							"value": "Mon, 20 Dec 2021 09:29:04 GMT"
+						},
+						{
+							"key": "ETag",
+							"value": "W/\"3a3-17dd72c4e44\""
+						},
+						{
+							"key": "Content-Type",
+							"value": "text/html; charset=UTF-8"
+						},
+						{
+							"key": "Content-Length",
+							"value": "931"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 20 Dec 2021 15:38:53 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=5"
+						}
+					],
+					"cookie": [],
+					"body": "<P2>API</P2>\n<br>\n\nDocumentation\n<link rel=\"stylesheet\" href=\"https://documenter.getpostman.com/view/18841597/UVRBkkUv\">link</link>"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "localhost:9103"
+		}
+	]
+}

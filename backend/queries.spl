@@ -1,0 +1,41 @@
+-- All the SQL queries used in the API (Variables did not get erased)
+DELETE FROM Pass
+
+DELETE FROM Station
+
+DELETE FROM Vehicle
+
+DELETE FROM Operator
+
+
+SELECT Vehicle.tagProvider as VisitingOperator, COUNT(Pass.passID) as NumberOfPasses, SUM(Pass.charge) as PassesCost
+      FROM Operator INNER JOIN Station ON Operator.operatorName = Station.stationProvider INNER JOIN Pass ON Pass.stationRef = Station.stationID
+      INNER JOIN Vehicle ON Pass.vehicleRef = Vehicle.vehicleID
+      WHERE Operator.operatorName = '${op_ID}' AND Pass.timestamp BETWEEN '${date_from}' AND '${date_to}' AND Vehicle.tagProvider <> Operator.operatorName
+      GROUP BY Vehicle.tagProvider
+
+select Station.stationProvider as Operator, count(Pass.passID) as NumberOfPasses
+            from Pass INNER JOIN Station on Pass.stationRef = Station.stationID INNER JOIN Operator ON Operator.operatorName = Station.stationProvider
+            WHERE Pass.timestamp BETWEEN '${date_from}' AND '${date_to}'
+            GROUP BY Station.stationProvider
+
+SELECT ROW_NUMBER() OVER(ORDER BY Pass.passID) as PassIndex, Pass.passID as PassID, Station.stationID as StationID, date_format(Pass.timestamp,'%Y-%m-%d %k:%i:%s') as TimeStamp, Vehicle.vehicleID as VehicleID, Pass.charge as Charge
+      FROM Operator INNER JOIN Station ON Operator.operatorName = Station.stationProvider INNER JOIN Pass ON Pass.stationRef = Station.stationID
+      INNER JOIN Vehicle ON Pass.vehicleRef = Vehicle.vehicleID
+      WHERE Operator.operatorName = '${op1_ID}' AND Vehicle.tagProvider = '${op2_ID}' AND Pass.timestamp BETWEEN '${date_from}' AND '${date_to}'
+
+SELECT COUNT(Pass.passID) as NumberOfPasses, SUM(Pass.charge) as PassesCost
+  FROM Operator INNER JOIN Station ON Operator.operatorName = Station.stationProvider INNER JOIN Pass ON Pass.stationRef = Station.stationID
+  INNER JOIN Vehicle ON Pass.vehicleRef = Vehicle.vehicleID
+  WHERE Operator.operatorName = '${op1_ID}' AND Vehicle.tagProvider = '${op2_ID}' AND Pass.timestamp BETWEEN '${date_from}' AND '${date_to}'
+
+SELECT ROW_NUMBER() OVER(ORDER BY Pass.passID) as PassIndex, Pass.passID as PassID, date_format(Pass.timestamp,'%Y-%m-%d %k:%i:%s') as PassTimeStamp, Vehicle.vehicleID as VehicleID, Vehicle.tagProvider as TagProvider,
+  CASE
+  WHEN Station.stationProvider = Vehicle.tagProvider THEN 'home' ELSE 'away'
+  END as PassType,
+  Pass.charge as PassCharge
+  FROM Pass INNER JOIN Vehicle ON Pass.vehicleRef = Vehicle.vehicleID INNER JOIN Station ON Pass.stationRef = Station.stationID
+  WHERE Station.stationID = '${stationID}' AND Pass.timestamp BETWEEN '${date_from}' AND '${date_to}'
+
+SELECT stationProvider FROM Station WHERE stationID = '${stationID}' 
+

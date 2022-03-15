@@ -1,0 +1,6 @@
+argparse
+requests
+pandas
+pytest
+mariadb
+
